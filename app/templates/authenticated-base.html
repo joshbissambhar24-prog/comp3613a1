@@ -2,10 +2,7 @@
 
 {% block internal_css %}
 <style>
-    body {
-        overflow-x: hidden;
-        background: #f4f6f8;
-    }
+    body { overflow-x: hidden; }
 
     #wrapper {
         display: flex;
@@ -33,7 +30,7 @@
     #sidebar .nav-link:hover,
     #sidebar .nav-link.active {
         color: #fff;
-        background-color: color-mix(in srgb, var(--brand-accent) 55%, #000);
+        background-color: color-mix(in srgb, var(--brand-accent) 28%, var(--brand-sidebar));
         border-radius: 0.5rem;
     }
 
@@ -50,7 +47,7 @@
         transition: all 0.3s;
         display: flex;
         flex-direction: column;
-        background-color: #f4f6f8;
+        background-color: var(--brand-bg);
     }
 
     .navbar {
@@ -63,12 +60,12 @@
 {% block content %}
 <div id="wrapper">
     <nav id="sidebar" class="p-3 d-flex flex-column vh-100">
-        <div class="brand-wordmark">FastStarter</div>
+        <div class="brand-wordmark">Research Platform</div>
 
         <ul class="nav nav-pills flex-column gap-2 flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/app') }}"
-                   href="{{ url_for('user_home_view') }}">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/student') or request.url.path.startswith('/reviewer') }}"
+                   href="{{ url_for('admin_home_view') if user.role == 'admin' else url_for('user_home_view') }}">
                     <span class="material-symbols-outlined me-2">home</span>
                     Home
                 </a>

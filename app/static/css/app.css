@@ -1,17 +1,18 @@
 :root {
-  /* Phase 5 theming: Guide overwrites these from docs/report.md preferences */
-  --brand-name: "FastStarter";
-  --brand-bg: #0c1218;
-  --brand-surface: #f7f4ef;
-  --brand-ink: #14202b;
-  --brand-muted: #6a7a88;
-  --brand-accent: #c45c26;
-  --brand-accent-2: #2a6f6b;
-  --brand-sidebar: #14202b;
-  --brand-sidebar-text: #a8b4bf;
-  --brand-font-display: "Fraunces", Georgia, serif;
-  --brand-font-body: "Source Sans 3", "Segoe UI", sans-serif;
-  --brand-radius: 0.85rem;
+  --brand-name: "Research Platform";
+  --brand-bg: #f3f6fb;
+  --brand-surface: #ffffff;
+  --brand-ink: #1f2937;
+  --brand-muted: #64748b;
+  --brand-accent: #2563eb;
+  --brand-accent-2: #1d4ed8;
+  --brand-sidebar: #173b78;
+  --brand-sidebar-text: #dbeafe;
+  --brand-font-display: "Segoe UI", Arial, sans-serif;
+  --brand-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --brand-radius: 0.75rem;
+  --bs-primary: #2563eb;
+  --bs-primary-rgb: 37, 99, 235;
 }
 
 *,
@@ -270,4 +271,110 @@ body {
 
 .auth-back:hover {
   color: var(--brand-accent);
+}
+
+body {
+  background: var(--brand-bg);
+}
+
+.brand-wordmark {
+  font-family: var(--brand-font-body);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.status-badge--pending {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-badge--accepted {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge--changes {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge--unknown {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.landing {
+  color: var(--brand-ink);
+  background: linear-gradient(180deg, #ffffff 0%, var(--brand-bg) 100%);
+}
+
+.landing::before,
+.landing-orb {
+  display: none;
+}
+
+.landing-nav .brand-wordmark,
+.landing-hero .brand-wordmark {
+  color: var(--brand-accent-2);
+}
+
+.landing-kicker {
+  color: var(--brand-accent);
+}
+
+.landing-lead {
+  color: var(--brand-muted);
+}
+
+.btn-landing-primary {
+  background: var(--brand-accent);
+  color: #fff;
+}
+
+.btn-landing-primary:hover {
+  background: var(--brand-accent-2);
+  color: #fff;
+}
+
+.btn-landing-ghost {
+  color: var(--brand-accent-2);
+  border-color: #bfdbfe;
+}
+
+.btn-landing-ghost:hover {
+  color: var(--brand-accent-2);
+  border-color: var(--brand-accent);
+  background: #eff6ff;
+}
+
+.landing-foot {
+  color: var(--brand-muted);
+}
+
+.auth-shell {
+  background: var(--brand-bg);
+}
+
+.auth-panel {
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 40px rgba(30, 64, 175, 0.1);
+}
+
+.auth-panel .brand-wordmark {
+  color: var(--brand-accent-2);
+}
+
+.auth-panel .btn-primary {
+  background: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+
+.auth-panel .btn-primary:hover {
+  background: var(--brand-accent-2);
+  border-color: var(--brand-accent-2);
 }

@@ -1,9 +1,71 @@
 {% extends "authenticated-base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Student dashboard{% endblock %}
 
 {% block subpage_content %}
 <div class="container-fluid py-2">
-  <h1 class="h4 mb-2">Home</h1>
-  <p class="text-muted mb-0">Workflow screens replace this shell in Phase 5 implement.</p>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h1 class="h3 mb-1">Welcome, {{ user.username }}</h1>
+      <p class="text-muted mb-0">Your research submissions</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('submission_form_view') }}">+ Submit Research</a>
+  </div>
+
+  {% if submissions %}
+  <div class="row g-3">
+    {% for submission, latest_review, presentation in submissions %}
+    <div class="col-12 col-xl-8">
+      <article class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex flex-wrap justify-content-between gap-3">
+            <div>
+              <h2 class="h5 mb-2">{{ submission.title }}</h2>
+              <p class="text-muted mb-2">{{ submission.research_type }}</p>
+              {% set status_badge_class = {
+                "Pending": "status-badge--pending",
+                "Accepted": "status-badge--accepted",
+                "Rejected": "status-badge--rejected",
+                "Requires Changes": "status-badge--changes"
+              }.get(submission.status, "status-badge--unknown") %}
+              <span class="badge {{ status_badge_class }}">{{ submission.status }}</span>
+            </div>
+            {% if submission.status == "Requires Changes" %}
+            <a class="btn btn-outline-primary align-self-start"
+               href="{{ url_for('resubmission_form_view', submission_id=submission.id) }}">
+              View / Resubmit
+            </a>
+            {% endif %}
+          </div>
+          {% if latest_review %}
+          <p class="mb-2 mt-3"><strong>Reviewer feedback:</strong> {{ latest_review.feedback }}</p>
+          {% endif %}
+          {% if presentation %}
+          <p class="mb-0 mt-2">
+            <strong>Presentation:</strong>
+            {{ presentation.presentation_date.strftime("%b %d, %Y") }},
+            {{ presentation.presentation_time.strftime("%I:%M %p") }},
+            {{ presentation.location }}
+          </p>
+          {% endif %}
+          <p class="small text-muted mt-3 mb-0">
+            Submitted {{ submission.submitted_at.strftime("%b %d, %Y") }}
+            {% if submission.file_url %} · File attached{% else %} · No file attached{% endif %}
+          </p>
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="small text-muted mt-3 mb-0">
+    Status values: Pending / Accepted / Rejected / Requires Changes
+  </p>
+  {% else %}
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+      <h2 class="h5">No submissions yet</h2>
+      <p class="text-muted mb-0">Start by submitting a poster or presentation.</p>
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

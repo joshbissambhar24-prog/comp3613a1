@@ -1,21 +1,28 @@
-from fastapi import APIRouter, HTTPException, Depends, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi import status
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+
+from app.dependencies.auth import StudentDep
 from app.dependencies.session import SessionDep
-from app.dependencies.auth import AuthDep, IsUserLoggedIn, get_current_user, is_admin
+from app.repositories.submission import SubmissionRepository
+from app.services.submission_service import SubmissionService
+
 from . import router, templates
 
 
-@router.get("/app", response_class=HTMLResponse)
+@router.get("/student", response_class=HTMLResponse, name="user_home_view")
 async def user_home_view(
     request: Request,
-    user: AuthDep,
-    db:SessionDep
+    user: StudentDep,
+    db: SessionDep,
 ):
+    service = SubmissionService(SubmissionRepository(db))
+    submissions = service.get_student_tracking_cards(user.id)
+
     return templates.TemplateResponse(
-        request=request, 
+        request=request,
         name="app.html",
         context={
-            "user": user
-        }
+            "user": user,
+            "submissions": submissions,
+        },
     )

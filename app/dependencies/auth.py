@@ -1,11 +1,14 @@
 from typing import Annotated
-from fastapi import Depends, HTTPException, status, Request
+
 import jwt
+from fastapi import Depends, HTTPException, Request, status
 from jwt.exceptions import InvalidTokenError
+
 from app.config import get_settings
-from app.models.user import User
 from app.dependencies.session import SessionDep
+from app.models.user import User
 from app.repositories.user import UserRepository
+
 
 async def get_current_user(request:Request, db:SessionDep)->User:
     credentials_exception = HTTPException(
@@ -53,3 +56,13 @@ async def is_admin_dep(user: AuthDep):
     return user
 
 AdminDep = Annotated[User, Depends(is_admin_dep)]
+
+async def is_student_dep(user: AuthDep) -> User:
+    if user.role not in {"regular_user", "student"}:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Student access is required",
+        )
+    return user
+
+StudentDep = Annotated[User, Depends(is_student_dep)]

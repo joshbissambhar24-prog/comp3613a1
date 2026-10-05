@@ -1,0 +1,98 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Review Submission{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <div class="row g-4">
+    <div class="col-12 col-xl-8">
+      <article class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h1 class="h3 mb-3">{{ submission.title }}</h1>
+          <p class="text-muted">{{ student.username }} · {{ submission.research_type }}</p>
+          <p>{{ submission.description }}</p>
+          {% if submission.file_url %}
+          <a class="btn btn-outline-primary"
+             href="{{ url_for('submission_file_download', submission_id=submission.id) }}">Download Research File</a>
+          {% endif %}
+        </div>
+      </article>
+
+      <article class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-3">Review Submission</h2>
+          <form method="post" action="{{ url_for('submit_review', submission_id=submission.id) }}">
+            <div class="mb-3">
+              <label class="form-label" for="feedback">Reviewer Feedback</label>
+              <textarea class="form-control" id="feedback" name="feedback" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="outcome">Outcome</label>
+              <select class="form-select" id="outcome" name="outcome" required>
+                <option value="" selected disabled>Select outcome</option>
+                <option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Requires Changes">Requires Changes</option>
+              </select>
+            </div>
+            <fieldset class="border rounded-3 p-3 mb-4 d-none" id="presentation-fields">
+              <legend class="float-none w-auto px-2 fs-6">Presentation Details (optional)</legend>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label" for="presentation_date">Date</label>
+                  <input class="form-control" type="date" id="presentation_date" name="presentation_date">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="presentation_time">Time</label>
+                  <input class="form-control" type="time" id="presentation_time" name="presentation_time">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="location">Location</label>
+                  <input class="form-control" id="location" name="location">
+                </div>
+              </div>
+              <div class="form-text">If you enter schedule details, provide all three fields.</div>
+            </fieldset>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-primary" type="submit">Save Review</button>
+              <a class="btn btn-outline-secondary" href="{{ url_for('admin_home_view') }}">Back</a>
+            </div>
+          </form>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-4">
+      <section class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h5 mb-3">Previous Reviews</h2>
+          {% if review_history %}
+          <div class="d-grid gap-3">
+            {% for review, reviewer in review_history %}
+            <article class="border rounded-3 p-3">
+              <p class="small text-muted mb-1">
+                {{ review.reviewed_at.strftime("%b %d, %Y") }} · {{ reviewer.username }}
+              </p>
+              <strong>{{ review.outcome }}</strong>
+              <p class="mb-0 mt-2">{{ review.feedback }}</p>
+            </article>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p class="text-muted mb-0">No previous reviews.</p>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block subpage_scripts %}
+<script>
+  const outcome = document.getElementById("outcome");
+  const presentationFields = document.getElementById("presentation-fields");
+  outcome.addEventListener("change", () => {
+    presentationFields.classList.toggle("d-none", outcome.value !== "Accepted");
+  });
+</script>
+{% endblock %}

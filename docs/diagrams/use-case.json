@@ -1,0 +1,58 @@
+{
+  "system": "Research Platform",
+  "actors": [
+    {
+      "name": "Student",
+      "side": "left"
+    },
+    {
+      "name": "Reviewer",
+      "side": "right"
+    }
+  ],
+  "use_cases": [
+    {
+      "name": "Submit a research poster or presentation",
+      "actors": ["Student"],
+      "includes": [
+        "Enter research details",
+        "Provide poster or presentation information"
+      ]
+    },
+    {
+      "name": "Enter research details"
+    },
+    {
+      "name": "Provide poster or presentation information"
+    },
+    {
+      "name": "Resubmit updated research",
+      "actors": ["Student"],
+      "extends": ["Submit a research poster or presentation"]
+    },
+    {
+      "name": "Review a research submission",
+      "actors": ["Reviewer"],
+      "includes": ["Record review outcome and feedback"]
+    },
+    {
+      "name": "Record review outcome and feedback"
+    },
+    {
+      "name": "Track research submission status",
+      "actors": ["Student"],
+      "includes": ["View current submission status"]
+    },
+    {
+      "name": "View current submission status"
+    },
+    {
+      "name": "View reviewer feedback",
+      "extends": ["Track research submission status"]
+    },
+    {
+      "name": "View presentation or event information",
+      "extends": ["Track research submission status"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam actorBorderColor #1B365D
+skinparam actorFontColor #1E232D
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #1B365D
+skinparam usecaseFontColor #1E232D
+skinparam rectangleBorderColor #1B365D
+skinparam rectangleBackgroundColor #F8FAFC
+skinparam arrowColor #1B365D
+
+actor "Student" as Student
+
+rectangle "Research Platform" {
+  usecase "Submit a research poster or presentation" as Submit_a_research_poster_or_presentation
+  usecase "Enter research details" as Enter_research_details
+  usecase "Provide poster or presentation information" as Provide_poster_or_presentation_information
+  usecase "Resubmit updated research" as Resubmit_updated_research
+  usecase "Review a research submission" as Review_a_research_submission
+  usecase "Record review outcome and feedback" as Record_review_outcome_and_feedback
+  usecase "Track research submission status" as Track_research_submission_status
+  usecase "View current submission status" as View_current_submission_status
+  usecase "View reviewer feedback" as View_reviewer_feedback
+  usecase "View presentation or event information" as View_presentation_or_event_information
+}
+
+actor "Reviewer" as Reviewer
+
+Student --> Submit_a_research_poster_or_presentation
+Submit_a_research_poster_or_presentation ..> Enter_research_details : <<include>>
+Submit_a_research_poster_or_presentation ..> Provide_poster_or_presentation_information : <<include>>
+Student --> Resubmit_updated_research
+Resubmit_updated_research ..> Submit_a_research_poster_or_presentation : <<extend>>
+Review_a_research_submission <-- Reviewer
+Review_a_research_submission ..> Record_review_outcome_and_feedback : <<include>>
+Student --> Track_research_submission_status
+Track_research_submission_status ..> View_current_submission_status : <<include>>
+View_reviewer_feedback ..> Track_research_submission_status : <<extend>>
+View_presentation_or_event_information ..> Track_research_submission_status : <<extend>>
+
+@enduml
