@@ -1,11 +1,11 @@
 # student-judge competency report
 
-**Judged at:** 2026-10-05
-**Evidence pass:** re-read the available Copilot CLI project session, current `docs/report.md`, `docs/diagrams/`, and `docs/wireframes/`; prior judge files ignored. Only one native project session was available through session history; its compact record and the carried-forward Phase 5 context are documented in `docs/transcripts/copilot-cli-guide-session.md`.
+**Judged at:** 2026-10-11T16:36:36-04:00
+**Evidence pass:** re-read both available native Copilot CLI project sessions, current `docs/report.md`, both Guide-written transcript files, `docs/diagrams/`, and `docs/wireframes/`; prior scorecard ignored.
 
 **Student / session:** Research Platform student / Copilot CLI project session
-**Artifact:** Available Copilot CLI Guide session, current project artefacts, and Guide-written transcript digest
-**Phases in evidence:** COMP 3613 Phases 1–5; Phase 6 not started
+**Artifact:** Available Copilot CLI Guide sessions, current project artefacts, and Guide-written transcript digests
+**Phases in evidence:** COMP 3613 Phases 1–6 (Phase 5 includes polish; Phase 6 deployment now verified)
 
 ### Totals
 
@@ -23,30 +23,30 @@
 
 | ID | Metric | Score / 4 | In avg | Evidence |
 |----|--------|----------:|:------:|----------|
-| M1 | Phase discipline | 4 | yes | Followed the assignment phases and built one workflow at a time; Phase 5 verification and polish preceded any Phase 6 work. Deployment remains the next phase. |
-| M2 | Problem framing | 3 | yes | The report records the student’s Research Platform workflows, include/extend structure, named model, relationships, and theme. The student clarified workflow ownership during the Phase 1 confidence check. |
-| M3 | Decision ownership | 3 | yes | Student decisions include optional submission files, required reviewer feedback, all-or-none presentation details, latest-feedback tracking, and distinct status colors. |
-| M4 | Artefact-before-code | 4 | yes | Implementation follows the documented ERD and the student-created combined wireframe at `docs/wireframes/wireframe.png`; the use-case diagram and coverage notes are also present. |
-| M5 | Verification habit | 4 | yes | Student ran and reported results for the theme and each workflow, continued debugging the Review failure, verified resubmission returns to Pending, and checked prior-review history and badge colors. |
-| M6 | Assignment fit | 4 | yes | Student snippets and shipped routes use the layered pattern; a router scan found no `select`, `db.exec`, or session-query persistence in `app/routers/`. FastStarter auth and seeded accounts were reused. |
-| M7 | Slice explanation | 3 | yes | Student completed model and thin-route snippets for workflows and made layer-respecting choices. Several snippet attempts needed correction or surrounding Guide implementation, so evidence is solid but not wholly independent. |
-| M8 | Prompt quality | 3 | yes | The student used phase-specific prompts and continued with concrete verification and polish feedback; short continuation prompts were appropriate once artefacts existed. |
-| M9 | Response to pushback | 4 | yes | The student persisted through the Review error, supplied traceback evidence, and continued to check resubmission/history and UI polish rather than accepting the first build. |
-| M10 | Integrity | 4 | yes | No external-solution paste or edited-skill evidence found. The initial Phase 1 detail flag was followed by an ownership clarification and a sincerity confidence of 0.78. |
-| M11 | Provenance continuity | 4 | yes | Work remained tied to the student’s three named workflows, model, wireframe, and branding; no alternate product or schema was introduced. |
-| M12 | Sincerity trajectory | 4 | yes | One logged round: confidence 0.78, trend up. The student clarified the workflow distinctions in their own words, exceeding the 0.75 clearance threshold. |
+| M1 | Phase discipline | 4 | yes | The student completed Phase 5 verification and polish before proceeding to Phase 6; deployment was recorded after `/health` and dashboard checks. |
+| M2 | Problem framing | 3 | yes | Student-owned workflows, model, relationships, and theme are recorded in `docs/report.md`; the student clarified workflow distinctions in their own words during the Phase 1 check. |
+| M3 | Decision ownership | 3 | yes | Student selected optional uploads, required review feedback, all-or-none presentation details, latest feedback display, badge colors, and the free Render service despite temporary uploads. |
+| M4 | Artefact-before-code | 4 | yes | The report includes the UML use-case diagram, student-named ERD, and student-created wireframe; implementation and deployment continue to reference those artefacts. |
+| M5 | Verification habit | 4 | yes | Student reported local workflow results and polish checks, then confirmed: “Both dashboards load.” The Guide also verified the public health response as `{"ok":true}`. |
+| M6 | Assignment fit | 4 | yes | The app follows the layered architecture recorded in the report, reuses FastStarter authentication and seeded roles, and deployed to Render only after local workflow polish. The temporary free-tier upload behavior is disclosed. |
+| M7 | Slice explanation | 3 | yes | Student completed model and thin-route snippets across workflows and made layer-respecting decisions; several snippet attempts required revision or Guide-completed glue. |
+| M8 | Prompt quality | 3 | yes | The student used phase-specific prompts, supplied the public deployment URL, stated a clear Render/free-tier preference, and provided the video URL for the report. |
+| M9 | Response to pushback | 4 | yes | The student persisted through review-flow errors with traceback checks, continued local verification and badge polish, and accepted a deliberate free-tier file-persistence tradeoff after it was explained. |
+| M10 | Integrity | 4 | yes | No external-solution paste or edited-skill evidence found. The Phase 1 confidence check cleared after the student explained workflow distinctions in their own words. |
+| M11 | Provenance continuity | 4 | yes | The project remained the Research Platform with the same three named workflows, ERD, wireframe, brand preferences, and Render service throughout the available session. |
+| M12 | Sincerity trajectory | 4 | yes | One logged sincerity round reached 0.78 with an upward trend and was cleared; no later laundering flags appeared. |
 
 ## Strengths
 
-- Student-owned workflow, model, wireframe, and theme artefacts guided implementation.
-- Student attempted the required model and thin-route snippets and corrected the submission ownership FK.
-- Student verification included real failures, the corrective retest, tracking, resubmission, and UI polish.
-- Layer boundaries were preserved; SQL and query construction are in repositories, not routers.
+- Student-owned workflows, model, wireframe, theme, and implementation choices guided the work.
+- Student attempted model and thin-route snippets and participated in correcting implementation details.
+- Local verification included workflow outcomes, review-history behavior, resubmission, and student-directed badge polish.
+- Phase 6 deployment is live at the reported URL; `/health` succeeded and the student confirmed both role dashboards load.
+- Known free-tier limitations are recorded rather than presented as durable file storage.
 
 ## Gaps (priority order)
 
-1. Phase 6 deployment is not yet complete: `docs/report.md` has no public Render URL. This is the next phase, not a Phase 5 deficiency.
-2. Before deployment, replace or supplement local `data/uploads/` storage with durable private storage; the current report already records this deployment consideration.
+1. No remaining assignment gate is identified. The chosen free Render tier has acknowledged operational limits: uploaded files on the web service filesystem are ephemeral, and the free Postgres database expires after 30 days. Upgrade or backup planning would be needed for continued long-term use, but it is not an unreported deployment failure.
 
 ## Phase gate status
 
@@ -55,21 +55,21 @@
 | 1 | met | Research Platform and three student-named workflows are recorded. |
 | 2 | met | UML use-case diagram is generated and embedded, with include/extend notes. |
 | 3 | met | Student-named entities, fields, relationships, and lifecycle notes are recorded in the ERD. |
-| 4 | met | Student-created wireframe is present and embedded; report records workflow coverage. |
-| 5 | met | Theme, sequential workflow implementation, student verification, and a student-selected polish change are recorded. |
-| 6 | not met | Not started; public Render URL and deployment marker logins are still outstanding. |
+| 4 | met | Student-created wireframe is present and embedded; workflow coverage is recorded. |
+| 5 | met | Theme, sequential workflow implementation, student verification, and student-selected polish are recorded. |
+| 6 | met | Public Render URL is recorded; `/health` succeeded and the student confirmed both Student and Reviewer dashboards load. |
 
 ## Recommended next practice
 
-- For Phase 6, map each Render service setting to the deployment requirement and verify the public `/health` endpoint before recording the URL.
+- For a future long-lived deployment, choose storage that survives web-service restarts and plan for the free Postgres expiration before relying on the demo data.
 
 ## Integrity note
 
-**Cleared after suspicion spiral.** The report contains one round prompted by an unusually detailed Phase 1 answer. The student clarified the workflow distinctions in their own words; recorded confidence rose to 0.78. No unresolved external-assist evidence was found.
+**Cleared after suspicion spiral.** The report records one initial Phase 1 confidence check; the student explained workflow distinctions in their own words and confidence rose to 0.78. No unresolved external-assist evidence was found.
 
 ## Provenance flags
 
-- One Phase 1 confidence check is recorded in `docs/report.md`; it cleared after clarification. No other red flags found in the available evidence.
+- One Phase 1 confidence check is recorded and cleared after clarification. The available session tool returns compact assistant digests for older turns; student prompts and carried-forward Phase 5 evidence are documented in the transcript files. A second native session contains only brief Render setup follow-up; both available sessions are represented.
 
 ## Sincerity log summary
 
@@ -78,3 +78,7 @@
 ## Skips
 
 - Skips: 0/3 used. No skip was recorded in the available chat or report.
+
+## Skill integrity
+
+- Status: pass (current report's skill-integrity block records status `pass` and no mismatches).
