@@ -1,0 +1,9 @@
+﻿Test ID,Test Case,Pre-conditions,Test Steps,Test Criteria,Actual Result,Success (Y/N),Tester,Date,Comments
+UAT-01,UAT-01 Account creation,User logged out,Open register page; enter valid account details; submit,Account is created and user can sign in,NOT EXECUTED,,,,
+UAT-02,UAT-02 Login,Existing student account,Open login page; enter valid credentials; submit,Student dashboard visible; appropriate navigation shown,NOT EXECUTED,,,,
+UAT-03,UAT-03 Create research submission,Logged-in student,"Open submission form; enter valid title, description and research type; submit",Confirmation appears; new submission is shown as Pending,NOT EXECUTED,,,,
+UAT-04,UAT-04 Track submission,Student has a submission,Open submission tracking/list; select the new record,"Correct title, type and current status visible",NOT EXECUTED,,,,
+UAT-05,UAT-05 Unauthorized reviewer access,"Student account, reviewer-only feature",Try to access reviewer workflow or API,Student cannot perform privileged review action,NOT EXECUTED,,,,
+UAT-06,UAT-06 Request changes,Admin/reviewer account; pending submission exists,Log in as reviewer; open a pending submission; add feedback and Requires Changes,Review saved; student sees Requires Changes,NOT EXECUTED,,,,
+UAT-07,UAT-07 Accept and schedule,Admin account; presentation submission exists,"Open review; enter Accepted, date, time, location; save",Accepted status and presentation details saved,NOT EXECUTED,,,,
+UAT-08,UAT-08 Logout,Existing logged-in user,Log out; attempt to revisit protected page,Session cleared and protected page inaccessible,NOT EXECUTED,,,,

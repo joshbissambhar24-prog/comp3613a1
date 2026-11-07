@@ -1,0 +1,18 @@
+﻿Category,ID,Component / Route,Inputs or Preconditions,Expected Result,Isolation or Dependencies
+Unit,UT-01,SubmissionService._validate_research_type,Poster / Presentation,No exception,No DB; pure validation
+Unit,UT-02,SubmissionService._validate_research_type,"Empty, Report, lowercase poster",ValueError,No DB; parameterized
+Unit,UT-03,SubmissionService._validate_submission_details,Blank title or description,ValueError,No DB; parameterized
+Unit,UT-04,SubmissionService._validate_submission_details,Valid title and description,No exception,No DB
+Unit,UT-05,security.encrypt_password/verify_password,"Valid password, wrong password",Hash differs; correct True; wrong False,No DB
+Unit,UT-06,ReviewService.create_review,Whitespace-only feedback,ValueError,Mock repository
+Unit,UT-07,ReviewService.create_review,Accepted with incomplete schedule,ValueError,Mock repository
+Unit,UT-08,ReviewService.create_review,Rejected with presentation schedule,ValueError,Mock repository
+Unit,UT-09,ReviewService.create_review,Requires Changes with valid feedback,Trimmed review; status changed; save called once,Mock repository
+Integration,IT-01,GET /health,No setup,200; {ok:true},HTTP app
+Integration,IT-02,"GET /api/submissions, /api/users",Logged out,401,API and auth
+Integration,IT-03,POST /api/submissions; GET list/detail,Student session; SQLite fixture,201; persisted Pending; visible in list/detail,Route + service + repository + DB
+Integration,IT-04,GET another student submission,Second student session,404; empty personal list,Access control + DB
+Integration,IT-05,POST review; GET users,Student session,401 for both,Role authorization
+Integration,IT-06,POST invalid submission,Student session,422; no record created,Validation + DB
+Integration,IT-07,POST review Requires Changes,"Student-created submission, reviewer session",201; status updated; review row saved,Review workflow + DB
+Integration,IT-08,POST Accepted with presentation info,Presentation submission and reviewer session,201; Presentation record exists,Scheduling + DB

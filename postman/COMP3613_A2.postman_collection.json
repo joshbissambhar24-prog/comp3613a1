@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "COMP3613 A2 Research Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Run in order. Seed an admin account and create a student account before running. Login requests use session cookies."
+  },
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(200); pm.expect(pm.response.json().ok).to.equal(true); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unauthenticated submissions denied",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login student",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/login",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{studentUsername}}"
+            },
+            {
+              "key": "password",
+              "value": "{{studentPassword}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Sign-in succeeded\", function () { pm.expect(pm.response.code).to.be.oneOf([200,303]); pm.expect(pm.cookies.has(\"access_token\")).to.equal(true); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create research submission",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"API test poster\", \"description\": \"Integration test research\", \"research_type\": \"Poster\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(201); pm.expect(pm.response.json().status).to.eql(\"Pending\"); });",
+              "pm.collectionVariables.set(\"submissionId\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List my submissions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(200); pm.expect(pm.response.json()).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reject invalid submission",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"\", \"description\": \"Test\", \"research_type\": \"Poster\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(422); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login admin",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/login",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{adminUsername}}"
+            },
+            {
+              "key": "password",
+              "value": "{{adminPassword}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Sign-in succeeded\", function () { pm.expect(pm.response.code).to.be.oneOf([200,303]); pm.expect(pm.cookies.has(\"access_token\")).to.equal(true); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Review submission",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions/{{submissionId}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions",
+            "{{submissionId}}",
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"feedback\": \"Revise methods\", \"outcome\": \"Requires Changes\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(201); pm.expect(pm.response.json().outcome).to.equal(\"Requires Changes\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check changed status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/submissions/{{submissionId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "submissions",
+            "{{submissionId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(200); pm.expect(pm.response.json().status).to.equal(\"Requires Changes\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List users admin only",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected response\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "submissionId",
+      "value": "1"
+    },
+    {
+      "key": "studentUsername",
+      "value": "student_a"
+    },
+    {
+      "key": "studentPassword",
+      "value": "CHANGE_ME"
+    },
+    {
+      "key": "adminUsername",
+      "value": "reviewer"
+    },
+    {
+      "key": "adminPassword",
+      "value": "CHANGE_ME"
+    }
+  ]
+}

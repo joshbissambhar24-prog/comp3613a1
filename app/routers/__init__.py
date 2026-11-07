@@ -25,4 +25,5 @@ from . import (
     server_config,
     submissions,
     reviews,
+    api_research,
 )
