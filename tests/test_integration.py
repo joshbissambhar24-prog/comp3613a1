@@ -66,3 +66,51 @@ def test_reviewer_can_schedule_accepted_presentation(client, users, login_as, db
     assert r.status_code == 201, r.text
     records=db.exec(select(Presentation)).all()
     assert len(records)==1 and records[0].location=='Lecture Hall'
+    
+def test_student_can_resubmit_after_changes_requested(
+    client, users, login_as, db
+):
+    from app.models.submission import Submission
+
+    # Student creates research
+    login_as(users[0])
+    response = client.post("/api/submissions", json={
+        "title": "Original Research",
+        "description": "Original description",
+        "research_type": "Poster",
+    })
+    assert response.status_code == 201
+    submission_id = response.json()["id"]
+
+    # Reviewer requests changes
+    login_as(users[2])
+    response = client.post(
+        f"/api/submissions/{submission_id}/reviews",
+        json={
+            "feedback": "Please revise your research",
+            "outcome": "Requires Changes",
+        },
+    )
+    assert response.status_code == 201
+
+    # Student resubmits corrected research
+    login_as(users[0])
+    response = client.post(
+        f"/submissions/{submission_id}/resubmit",
+        data={
+            "title": "Updated Research",
+            "description": "Corrected description",
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+
+    # Verify changes were saved in the database
+    db.expire_all()
+    submission = db.get(Submission, submission_id)
+
+    assert submission is not None
+    assert submission.title == "Updated Research"
+    assert submission.description == "Corrected description"
+    assert submission.status == "Pending"
